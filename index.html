@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,6 +12,7 @@
     <script src="https://kit.fontawesome.com/60c801c4ee.js" crossorigin="anonymous"></script>
     <title>Document</title>
 </head>
+
 <body>
     <header class="bg-[#020202] h-[100px] flex flex-col justify-center">
         <div class="text-center text-[2.3rem]">
@@ -61,7 +63,13 @@
         </form>
 
         <h2 class="mt-[3rem] ml-[2.3rem]">Resultado</h2>
-        <div class="containerResult grid grid-cols-4 gap-4 h-[10%] m-b[5rem]"></div>
+        <div class="hidden">
+            <div class="custom-loader"></div>
+        </div>
+        <div class="containerResult grid grid-cols-4 gap-4 h-[10%] m-b[5rem]">
+           
+
+        </div>
 
 
 
@@ -80,11 +88,14 @@
                 <i class="fas fa-angle-double-right"></i>
             </button>
         </div>
+
     </main>
+
     <footer class="footer  bg-[#020202] h-[100px] flex flex-col justify-center mt-[3rem]">
         <p class="text-center text-[0.9rem] text-white">Hecho ❤️ por tamy</p>
     </footer>
 
     <script src="scrip.js"></script>
 </body>
+
 </html>

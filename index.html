@@ -4,10 +4,87 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik+Scribble&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/60c801c4ee.js" crossorigin="anonymous"></script>
     <title>Document</title>
 </head>
 <body>
-    
+    <header class="bg-[#020202] h-[100px] flex flex-col justify-center">
+        <div class="text-center text-[2.3rem]">
+            <span class="title"> Comics Ada</span>
+        </div>
+    </header>
+    <div class="containerImg mb-[2rem] "></div>
+    <main>
+
+        <form id="form-comic">
+            <div class="conatainerForm flex">
+                <div class="w-[40%] ml-[1.5rem]">
+                    <label name="tilteSearch " class="ml-[1rem]">Busquèda</label>
+                    <div class="w-[100%] ">
+                        <span class="containerIcon"><i class="fa-solid fa-magnifying-glass"></i></span>
+                        <input type="text" id="tilteSearch"
+                            class=" w-[90%] p-[0.5rem]  border-solid border-b-[1px] border-black"
+                            placeholder="Ingresa tu Busqueda">
+                    </div>
+                </div>
+                <div class="flex justify-around w-[50%]">
+                    <div class="w-[20%]">
+                        <label name="titleTipo">Tipo:</label>
+                        <select class="w-[100%]  border-[1px] border-solid border[1px] border-black"
+                            id="optionPersonajes">
+                            <option value="comics">Comic</option>
+                            <option value="characters">Personajes</option>
+                        </select>
+                    </div>
+                    <div class="w-[20%]">
+                        <label name="titleOrder">Orden:</label>
+                        <select id="sortOrder" class="w-[100%] border-[1px] border-solid border[1px] border-black">
+                            <option class="aZc" value="">A-Z</option>
+                            <option class="zAc" value=""> Z-A</option>
+                            <option class="viejoc" value="">Mas nuevo</option>
+                            <option class="viejoc" value="">Mas viejos</option>
+
+                        </select>
+                    </div>
+                    <div class="w-[20%] flex justify-center items-center ">
+                        <button type="button" id="buttonSearch"
+                            class="hover w-[100%] h-[50%] border-[1px] border-solid border[1px] border-black text-white bg-black">Buscar
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+
+        <h2 class="mt-[3rem] ml-[2.3rem]">Resultado</h2>
+        <div class="containerResult grid grid-cols-4 gap-4 h-[10%] m-b[5rem]"></div>
+
+
+
+        <div class="container-button flex justify-center  mt-[67px]">
+            <button id="first" class="hover w-[5%] bg-black text-white mr-[5px]">
+                <i class="fas fa-angle-double-left"></i>
+            </button>
+            <button id="prev" class="hover w-[5%] bg-black text-white mr-[5px]">
+                <i class="fas fa-angle-left"></i>
+            </button>
+            <div id="currentPage"></div>
+            <button id="next" class="hover w-[5%] bg-black text-white mr-[5px]">
+                <i class="fas fa-angle-right"></i>
+            </button>
+            <button id="last" class="hover w-[5%] bg-black text-white mr-[5px]">
+                <i class="fas fa-angle-double-right"></i>
+            </button>
+        </div>
+    </main>
+    <footer class="footer  bg-[#020202] h-[100px] flex flex-col justify-center mt-[3rem]">
+        <p class="text-center text-[0.9rem] text-white">Hecho ❤️ por tamy</p>
+    </footer>
+
     <script src="scrip.js"></script>
 </body>
 </html>

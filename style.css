@@ -1,1 +1,36 @@
+body{
+    min-height: 100vh;
+}
+
+.title{
+    font-family: 'Rubik Scribble', system-ui;
+    font-family: 'Ubuntu', sans-serif;
+    color: white;
+    font-weight: 700;
+    background-color: re;
+ 
+}
+.containerImg{
+    background-image: url('hero.jpg');
+    min-height: 350px;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.containerIcon{
+    position: relative;
+    left: 2%;
+}
+
+.hidden{
+    display: none;
+}
+
+.buttonSearch:hover {
+    background-color: red;
+    color: white;
+}
+.hover:hover {
+    background-color: red;
+    color: white;
+}
 

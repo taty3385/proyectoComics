@@ -57,6 +57,34 @@ const getMarvelData = async (resource, title, offset) => {
 
 
 
+const getComicId = async (comicId) => {
+    const endpoint = `comics/${comicId}`;
+    const url = `${urlBase}${endpoint}?${ts}${keyPublic}${hash}`;
+
+    try {
+        const response = await fetch(url);
+        const data = await response.json();
+        return data.data.results[0];
+    } catch (error) {
+        console.error(`Error al obtener la información del cómic con comicId ${comicId}:`, error);
+        throw error;
+    }
+};
+
+
+const getCharacterId = async (characterId) => {
+    const endpoint = `characters/${characterId}`;
+    const url = `${urlBase}${endpoint}?${ts}${keyPublic}${hash}`;
+
+    try {
+        const response = await fetch(url);
+        const data = await response.json();
+        return data.data.results[0];
+    } catch (error) {
+        console.error(`Error al obtener la información del personaje con characterId ${characterId}:`, error);
+        throw error;
+    }
+};
 
 
 
@@ -66,9 +94,9 @@ const printContent = async (resource, title, offset) => {
     console.log(contentData);
 
     if (resource === 'comics') {
-        printComicContent(contentData.results);
+        printComic(contentData.results);
     } else if (resource === 'characters') {
-        printCharacterContent(contentData.results);
+        printCharacter(contentData.results);
     }
 };
 
@@ -81,7 +109,7 @@ const formatFecha = (fecha) => {
     return `${dia}/${mes}/${año}`;
 };
 
-const getWriter = (comic) => {
+const Writer = (comic) => {
     if (comic && comic.creators && comic.creators.items && comic.creators.items.length > 0) {
         const writer = comic.creators.items.find((creator) => creator.role.toLowerCase() === 'writer');
         return writer ? writer.name : ' ';
@@ -91,7 +119,7 @@ const getWriter = (comic) => {
 };
 
 
-const printComicContent = (comicsData) => {
+const printComic = (comicsData) => {
     $(".containerResult").innerHTML = "";
 
     if (comicsData.length > 0) {
@@ -99,13 +127,13 @@ const printComicContent = (comicsData) => {
             const thumbnail = `${comic.thumbnail.path}.${comic.thumbnail.extension}`;
             const title = comic.title;
             const description = comic.description
-            const publicado = formatFecha(comic.dates[0].date);
-            const writer = getWriter(comic)
+            const published = formatFecha(comic.dates[0].date);
+            const writer = Writer(comic)
             $(".containerResult").innerHTML += `<div>
                 <img  class="h-[80%] w-[100%]" src="${thumbnail}" alt="${title}">
                 <p>${title}</p>
                 <p class="hidden">ESCRITOR: ${writer}</p>
-                <p class="hidden">PUBLICADO:${publicado}</p>
+                <p class="hidden">PUBLICADO:${published}</p>
                 <p class="hidden">DESCRIPCION:${description}</p>
                 
             </div>`;
@@ -116,7 +144,7 @@ const printComicContent = (comicsData) => {
 
 
 
-const printCharacterContent = (charactersData) => {
+const printCharacter = (charactersData) => {
 
     $(".containerResult").innerHTML = "";
 

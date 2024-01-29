@@ -15,7 +15,7 @@ const hash = "&hash=241d1f4c5068b3fc5cf2eb46db150f01";
 const limit = 20;
 const offset = 0
 let currentPage = 0;
-let currentOrder = "asc"; 
+let currentOrder = "asc";
 
 
 
@@ -119,47 +119,44 @@ const Writer = (comic) => {
 };
 
 
-const printComic = (comicsData) => {
-    $(".containerResult").innerHTML = "";
+const printComic = async (comics) => {
+    const container = $(".containerResult");
+    container.innerHTML = "";
 
-    if (comicsData.length > 0) {
-        for (let comic of comicsData) {
-            const thumbnail = `${comic.thumbnail.path}.${comic.thumbnail.extension}`;
-            const title = comic.title;
-            const description = comic.description
-            const published = formatFecha(comic.dates[0].date);
-            const writer = Writer(comic)
-            $(".containerResult").innerHTML += `<div>
-                <img  class="h-[80%] w-[100%]" src="${thumbnail}" alt="${title}">
-                <p>${title}</p>
-                <p class="hidden">ESCRITOR: ${writer}</p>
-                <p class="hidden">PUBLICADO:${published}</p>
-                <p class="hidden">DESCRIPCION:${description}</p>
+    // Itera sobre los cómics y agrega la información al contenedor
+    for (const comic of comics) {
+        const comicElement = document.createElement("div");
+
+        comicElement.innerHTML = `<div class="hoverComic  w-[100%]">
+                <img  src="${comic.thumbnail.path}.${comic.thumbnail.extension}" alt="${comic.title}"class="comic-image h-[100%]" data-id="${comic.id}">
                 
-            </div>`;
-        }
+                </div>`;
+        comicElement.innerHTML += `<p>${comic.title}</p>`;
+        container.appendChild(comicElement);
+
+
+    };
+}
+
+
+
+const printCharacter = async (characters) => {
+    
+    const container = $(".containerResult");
+     container.innerHTML = "";
+
+    // Itera sobre los personajes y agrega la información al contenedor
+    for (const character of characters) {
+        const characterElement = document.createElement("div");
+        characterElement.innerHTML = `<div class="hoverImg h-[80%] w-[100%]]"><img src="${character.thumbnail.path}.${character.thumbnail.extension}" alt="${character.name}"class="character-image h-[100%]" data-id="${character.id}"></div>`;
+        characterElement.innerHTML += `<p class="h-[20%] bg-black text-white text-center flex flex-col justify-center border-solid border border-t-red-800 mb-[1rem] hover"> ${character.name}</p>`;
+        container.appendChild(characterElement);
+
+    
     }
-};
 
+}
 
-
-
-const printCharacter = (charactersData) => {
-
-    $(".containerResult").innerHTML = "";
-
-    if (charactersData.length > 0) {
-        for (let character of charactersData) {
-            const thumbnail = `${character.thumbnail.path}.${character.thumbnail.extension}`;
-            const name = character.name;
-            $(".containerResult").innerHTML += `<div>
-                <img class="h-[80%] w-[100%] " src="${thumbnail}" alt="${name}">
-                <p class="h-[20%] bg-black text-white text-center flex flex-col justify-center border-solid border-4 border-t-red-600 hover">${name}</p>
-                
-            </div>`;
-        }
-    }
-};
 
 
 

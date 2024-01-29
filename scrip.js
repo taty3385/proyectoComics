@@ -141,24 +141,34 @@ const printComic = async (comics) => {
 
 
 const printCharacter = async (characters) => {
-    
     const container = $(".containerResult");
-     container.innerHTML = "";
-
-    // Itera sobre los personajes y agrega la información al contenedor
+    container.innerHTML = "";
     for (const character of characters) {
-        const characterElement = document.createElement("div");
-        characterElement.innerHTML = `<div class="hoverImg h-[80%] w-[100%]]"><img src="${character.thumbnail.path}.${character.thumbnail.extension}" alt="${character.name}"class="character-image h-[100%]" data-id="${character.id}"></div>`;
-        characterElement.innerHTML += `<p class="h-[20%] bg-black text-white text-center flex flex-col justify-center border-solid border border-t-red-800 mb-[1rem] hover"> ${character.name}</p>`;
-        container.appendChild(characterElement);
+        container.innerHTML += `<div class="hoverImg h-[80%] w-[100%]]"><img src="${character.thumbnail.path}.${character.thumbnail.extension}" alt="${character.name}"class="character-image h-[100%]" data-id="${character.id}"></div>`;
+        `<p class="h-[20%] bg-black text-white text-center flex flex-col justify-center border-solid border border-t-red-800 mb-[1rem] hover"> ${character.name}</p>`;
 
-    
     }
 
 }
+// TRAIGO LA INFORMACION DE PERSONAJES  Y COMICS
+const getCharactersComic = async (comicId) => {
+    const endpoint = `comics/${comicId}/characters`;
+    const url = `${urlBase}${endpoint}?${ts}${keyPublic}${hash}`;
+    const response = await fetch(url);
+    const data = await response.json();
+    return data.data.results;
 
 
+}
 
+const getComicsCharacters = async (characterId) => {
+    const endpoint = `characters/${characterId}/comics`;
+    const url = `${urlBase}${endpoint}?${ts}${keyPublic}${hash}`;
+    const response = await fetch(url);
+    const data = await response.json();
+    return data.data.results;
+
+};
 
 const navigatePage = async (resource, title, offset) => {
 

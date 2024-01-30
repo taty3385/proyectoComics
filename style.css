@@ -85,3 +85,28 @@ body{
   .hoverComic:hover {
     transform: translateY(-20px); 
   }
+
+    
+  .hoverComic:hover {
+    transform: translateY(-20px); 
+    
+  }
+  .hoverText:hover{
+    color: red;
+  }
+
+ .marginTop{
+  border-top: 2px solid red;
+ }
+
+ button:disabled {
+  background-color: green; /* Cambiar el color de fondo a verde */
+  color: white; /* Cambiar el color del texto a blanco */
+  cursor: not-allowed; /* Cambiar el cursor a 'no permitido' */
+  opacity: 0.6; /* Reducir la opacidad para indicar que está deshabilitado */
+}
+
+
+
+
+

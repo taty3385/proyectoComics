@@ -20,11 +20,11 @@
         </div>
     </header>
     <div class="containerImg mb-[2rem] "></div>
-    <main>
+    <main class="p-[13px] ml-[13px]">
 
         <form id="form-comic">
             <div class="conatainerForm flex">
-                <div class="w-[40%] ml-[1.5rem]">
+                <div class="w-[40%]">
                     <label name="tilteSearch " class="ml-[1rem]">Busquèda</label>
                     <div class="w-[100%] ">
                         <span class="containerIcon"><i class="fa-solid fa-magnifying-glass"></i></span>
@@ -62,15 +62,22 @@
 
         </form>
 
-        <h2 class="mt-[3rem] ml-[2.3rem]">Resultado</h2>
+        <h2 class="my-4 text-3xl result font-bold">Resultado</h2>
+        <p class="results text-slate-500 mb-[2rem]"></p>
         <div class="hidden">
             <div class="custom-loader"></div>
         </div>
-        <div class="containerResult grid grid-cols-4 gap-4 h-[10%] m-b[5rem]"></div>
-        <div id="infoContainer" class="infoConteiner flex justify-center mb-[2rem]"></div>
-        <div id="infoContainer2"class="infoConteiner2 grid grid-cols-4 gap-4 h-[10%] m-b[10rem] mt[5rem] flex flex-col"></div>
+        <div class="containerResult h-[10%]  m-b[5rem] flex flex-wrap">
 
+        </div>
+        <div id="infoContainer" class="infoConteiner flex justify-center mb-[2rem]  flex-wrap"></div>
 
+        <section>
+            <h3 id="conteo"></h3>
+            <div id="infoContainer2"
+                class="infoConteiner2 grid grid-cols-4 gap-4 h-[10%] m-b[10rem] mt[5rem] flex flex-col  flex-wrap"> </div>
+        </section>
+        </div>
 
         <div class="container-button flex justify-center  mt-[67px]">
             <button id="first" class="hover w-[5%] bg-black text-white mr-[5px]">
@@ -90,11 +97,10 @@
 
     </main>
 
+
     <footer class="footer  bg-[#020202] h-[100px] flex flex-col justify-center mt-[3rem]">
         <p class="text-center text-[0.9rem] text-white">Hecho ❤️ por tamy</p>
     </footer>
 
     <script src="scrip.js"></script>
-</body>
-
 </html>

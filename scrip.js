@@ -82,13 +82,18 @@ const getCharacterId = async (characterId) => {
 
 const printContent = async (resource, title, offset) => {
     const contentData = await getMarvelData(resource, title, offset);
+    let totalResults = 0;
+
     if (resource === 'comics') {
+        totalResults = contentData.totalElements;
         printComic(contentData.results);
+        $(".results").innerHTML = ` ${totalResults} Resultados`;
     } else if (resource === 'characters') {
+        totalResults = contentData.totalElements;
         printCharacter(contentData.results);
+        $(".results").innerHTML = ` ${totalResults} Resultados`;
     }
 };
-
 
 
 const printComic = async (comics) => {
@@ -98,6 +103,7 @@ const printComic = async (comics) => {
 
     for (const comic of comics) {
         const comicElement = document.createElement("div");
+        comicElement.classList.add("containerComic")
         comicElement.style.width = "17%"
         comicElement.style.marginLeft = "1rem"
         comicElement.innerHTML = `<div class="hoverComic h-[80%] w-[100%]">
@@ -156,7 +162,7 @@ const printInfoComics = async (comics) => {
         comicElement.innerHTML = `<div class="hoverComic h-[80%] w-[100%]">   
             <img class="h-[80%] w-[100%]" src="${comic.thumbnail.path}.${comic.thumbnail.extension}" alt="${comic.title}" class="comic-image" data-id="${comic.id}">
             </div>`;
-        comicElement.innerHTML += `<p>Nombre del cómic: ${comic.title}</p>`;
+        comicElement.innerHTML += `<p class="">${comic.title}</p>`;
         container.appendChild(comicElement);
         comicElement.addEventListener("click", async () => {
 
@@ -348,6 +354,8 @@ const navigatePage = async (resource, title, offset) => {
 };
 
 
+
+// --------------------------------------------EVENTOS------------------------------------------------ 
 
 const updatePageNumber = () => {
     $("#currentPage").textContent = currentPage + 1;

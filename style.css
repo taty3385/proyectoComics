@@ -35,32 +35,9 @@ body{
 }
 
 
-.custom-loader {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    border: 8px solid #0000;
-    border-right-color: #F43B2497;
-    position: relative;
-    animation: s4 1s infinite linear;
-  }
-  .custom-loader:before,
-  .custom-loader:after {
-    content: "";
-    position: absolute;
-    inset:-8px;
-    border-radius: 50%;
-    border:inherit;
-    animation:inherit;
-    animation-duration: 2s;
-  }
-  .custom-loader:after {
-    animation-duration: 4s;
-  }
-  
-  @keyframes s4 {
-    100% {transform: rotate(1turn)}
-  }
+
+
+
 
   .hoverImg {
     overflow: hidden;
@@ -100,13 +77,21 @@ body{
  }
 
  button:disabled {
-  background-color: green; /* Cambiar el color de fondo a verde */
-  color: white; /* Cambiar el color del texto a blanco */
-  cursor: not-allowed; /* Cambiar el cursor a 'no permitido' */
-  opacity: 0.6; /* Reducir la opacidad para indicar que está deshabilitado */
+  background-color: green; 
+  color: white; 
+  cursor: not-allowed; 
+  opacity: 0.6; 
 }
 
-
+.hiddenLoader{
+  overflow: hidden;
+}
+.center{
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
 
 

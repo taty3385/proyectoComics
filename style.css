@@ -1,92 +1,118 @@
-body{
-    min-height: 100vh;
+body {
+  min-height: 100vh;
 }
 
-.title{
-    font-family: 'Rubik Scribble', system-ui;
-    font-family: 'Ubuntu', sans-serif;
-    color: white;
-    font-weight: 700;
-    background-color: re;
- 
-}
-.containerImg{
-    background-image: url('hero.jpg');
-    min-height: 350px;
-    background-repeat: no-repeat;
-    background-size: cover;
-}
-.containerIcon{
-    position: relative;
-    left: 2%;
+.title {
+  font-family: 'Rubik Scribble', system-ui;
+  font-family: 'Ubuntu', sans-serif;
+  color: white;
+  font-weight: 700;
+  background-color: re;
+
 }
 
-.hidden{
-    display: none;
+.containerImg {
+  background-image: url('hero.jpg');
+  min-height: 350px;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.containerIcon {
+  position: relative;
+  left: 2%;
+}
+
+.hidden {
+  display: none;
 }
 
 .buttonSearch:hover {
-    background-color: red;
-    color: white;
+  background-color: red;
+  color: white;
 }
+
 .hover:hover {
-    background-color: red;
-    color: white;
+  background-color: red;
+  color: white;
 }
 
 
+.custom-loader {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background:
+    radial-gradient(farthest-side, #F4144D 94%, #0000) top/8px 8px no-repeat,
+    conic-gradient(#0000 30%, #F4144D);
+  -webkit-mask: radial-gradient(farthest-side, #0000 calc(100% - 8px), #000 0);
+  animation: s3 1s infinite linear;
+  position: relative;
+  bottom: 3px;
+}
+
+@keyframes s3 {
+  100% {
+    transform: rotate(1turn)
+  }
+}
+
+.cotainerLoader {
+  display: flex;
+  justify-content: center;
+  position: absolute;
+}
+
+.hoverImg {
+  overflow: hidden;
+  position: relative;
+}
+
+.hoverImg {
+  transition: transform 0.3s ease;
+}
+
+.hoverImg:hover img {
+  transform: scale(1.1);
+}
 
 
+.hoverComic {
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s ease;
+}
+
+.hoverComic:hover {
+  transform: translateY(-20px);
+}
 
 
-  .hoverImg {
-    overflow: hidden;
-    position: relative;
-  }
-  
-  .hoverImg {
-    transition: transform 0.3s ease;
-  }
-  
-  .hoverImg:hover img {
-    transform: scale(1.1);
-  }
-  
-  
-  .hoverComic {
-    position: relative;
-    overflow: hidden;
-    transition: transform 0.3s ease;
-  }
-  
-  .hoverComic:hover {
-    transform: translateY(-20px); 
-  }
+.hoverComic:hover {
+  transform: translateY(-20px);
 
-    
-  .hoverComic:hover {
-    transform: translateY(-20px); 
-    
-  }
-  .hoverText:hover{
-    color: red;
-  }
+}
 
- .marginTop{
+.hoverText:hover {
+  color: red;
+}
+
+.marginTop {
   border-top: 2px solid red;
- }
-
- button:disabled {
-  background-color: green; 
-  color: white; 
-  cursor: not-allowed; 
-  opacity: 0.6; 
 }
 
-.hiddenLoader{
+button:disabled {
+  background-color: green;
+  color: white;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.hiddenLoader {
   overflow: hidden;
 }
-.center{
+
+.center {
   height: 100vh;
   display: flex;
   justify-content: center;
@@ -95,3 +121,74 @@ body{
 
 
 
+@media(max-width:723px) {
+  main>.infoConteiner{
+    justify-content: flex-start;
+  }
+
+  .infoConteiner>img {
+    width: 50%;
+
+  }
+}
+
+@media(max-width:625px) {
+  .containerComic {
+
+    height: 20%;
+    min-width: 25%;
+  }
+
+  .containerCharacter {
+    height: 20%;
+    min-width: 25%;
+  }
+
+  .containerResult {
+    justify-content: space-around;
+  }
+
+  #form-comic>.conatainerForm {
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+}
+
+
+@media(max-width:600px) {
+  .containerComic {
+
+    height: 30%;
+    min-width: 40%;
+  }
+
+  .containerCharacter {
+    height: 30%;
+    min-width: 40%;
+  }
+  .infoConteiner>img {
+    width: 70%;
+
+  }
+}
+
+@media(max-width:355px) {
+  .containerComic {
+    height: 30%;
+    min-width: 90%;
+  }
+
+  .containerCharacter {
+    height: 30%;
+    min-width: 90%;
+  }
+
+  .main {
+    padding: 2px;
+    margin: 2px;
+  }
+
+  .container-button>button {
+    width: 16%;
+  }
+}

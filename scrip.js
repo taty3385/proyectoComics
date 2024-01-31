@@ -96,63 +96,86 @@ const printContent = async (resource, title, offset) => {
 };
 
 
+
+
 const printComic = async (comics) => {
-    const containerComics = $(".containerResult");
-    containerComics.innerHTML = "";
+    const container = $(".containerResult");
+    container.innerHTML = "";
 
-
+    // Itera sobre los cómics y agrega la información al contenedor
     for (const comic of comics) {
         const comicElement = document.createElement("div");
         comicElement.classList.add("containerComic")
         comicElement.style.width = "17%"
         comicElement.style.marginLeft = "1rem"
+
         comicElement.innerHTML = `<div class="hoverComic h-[80%] w-[100%]">
-            <img  src="${comic.thumbnail.path}.${comic.thumbnail.extension}" alt="${comic.title}"class="comic-image" data-id="${comic.id}">
-            
-            </div>`;
+        <img  src="${comic.thumbnail.path}.${comic.thumbnail.extension}" alt="${comic.title}" class="comic-image" data-id="${comic.id}">
+        
+        </div>`;
         comicElement.innerHTML += `<p class="hoverText">${comic.title}</p>`;
-        containerComics.appendChild(comicElement);
+        container.appendChild(comicElement);
+         comicElement.addEventListener("click", async () => {
+    
+            $(".containerResult").classList.add("hidden");
+            $("#infoContainer").classList.remove("hidden");
+            $("#infoContainer2").classList.remove("hidden");
+            $(".results").classList.add("hidden");
+            $(".result").classList.add("hidden");
+            $("#conteo").classList.remove("hidden");
 
 
-        comicElement.addEventListener("click", async () => {
-            const containerComics = $(".containerResult")
-            containerComics.classList.add("hidden")
+            const container = $(".containerResult")
+            container.classList.add("hidden")
             const comicId = comic.id;
             const comicInfo = await getComicId(comicId);
             InfoContainer(comicInfo, "infoContainer");
             showCharacterComics(comicId, "infoContainer2");
         });
     }
-
 }
 
+
+
+
 const printCharacter = async (characters) => {
+    const container = $(".containerResult");
+    container.innerHTML = "";
 
-    const containerCharacter = $(".containerResult");
-    containerCharacter.innerHTML = "";
-
-
+   
     for (const character of characters) {
         const characterElement = document.createElement("div");
+        characterElement.classList.add("containerCharacter")
         characterElement.style.width = "17%"
         characterElement.style.marginLeft = "1rem"
         characterElement.style.marginBottom = "7px"
-        characterElement.innerHTML = `<div class="hoverImg h-[80%] w-[100%]"><img src="${character.thumbnail.path}.${character.thumbnail.extension}" alt="${character.name}"class="character-image h-[100%] w-[100%]" data-id="${character.id}"></div>`;
+        characterElement.innerHTML = `<div class="hoverImg h-[80%] w-[100%]">
+            <img src="${character.thumbnail.path}.${character.thumbnail.extension}" alt="${character.name}" class="character-image h-[100%]" data-id="${character.id}">
+        </div>`;
         characterElement.innerHTML += `<p class=" marginTop h-[20%] bg-black text-white text-center flex flex-col justify-center  mb-[2rem] hover"> ${character.name}</p>`;
-        containerCharacter.appendChild(characterElement);
-
+        container.appendChild(characterElement);
 
         characterElement.addEventListener("click", async () => {
-            const containerCharacter = $(".containerResult")
-            containerCharacter.classList.add("hidden")
+   
+            $(".containerResult").classList.add("hidden");
+            $("#infoContainer").classList.remove("hidden");
+            $("#infoContainer2").classList.remove("hidden");
+            $(".results").classList.add("hidden");
+            $(".result").classList.add("hidden");
+            $("#conteo").classList.remove("hidden");
+
+
+            const container = $(".containerResult");
+            container.classList.add("hidden");
+
             const characterId = character.id;
             const characterInfo = await getCharacterId(characterId);
             InfoContainer(characterInfo, "infoContainer");
             showComicsCharacter(characterId, "infoContainer2");
         });
     }
-
 }
+
 
 const printInfoComics = async (comics) => {
     const container = $("#infoContainer2");
@@ -380,15 +403,24 @@ $("#sortOrder").addEventListener("change", () => {
     updatePageNumber();
 
 });
-$("#buttonSearch").addEventListener("click", () => {
+
+$("#buttonSearch").addEventListener("click", async () => {
     const resource = $("#optionPersonajes").value;
     const title = $("#tilteSearch").value;
 
+    $("#infoContainer").classList.add("hidden");
+    $("#conteo").classList.add("hidden");
+    $("#infoContainer2").classList.add("hidden");
+    $(".containerResult").classList.remove("hidden");
+    $(".results").classList.remove("hidden");
+    $(".result").classList.remove("hidden");
 
     currentPage = 0;
     updatePageNumber();
+    await printContent(resource, title, currentPage * limit);
     navigatePage(resource, title, 0);
-});
+
+})
 $("#prev").addEventListener("click", () => navigatePage($("#optionPersonajes").value, $("#tilteSearch").value, -1));
 $("#next").addEventListener("click", () => navigatePage($("#optionPersonajes").value, $("#tilteSearch").value, 1));
 $("#first").addEventListener("click", () => navigatePage($("#optionPersonajes").value, $("#tilteSearch").value, -currentPage));

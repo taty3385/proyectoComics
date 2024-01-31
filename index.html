@@ -13,7 +13,12 @@
     <title>Document</title>
 </head>
 
-<body>
+<body class="">
+    <div id="preloader">
+        <div id="loader"></div>
+      </div>
+      
+    </div>
     <header class="bg-[#020202] h-[100px] flex flex-col justify-center">
         <div class="text-center text-[2.3rem]">
             <span class="title"> Comics Ada</span>
@@ -64,9 +69,7 @@
 
         <h2 class="my-4 text-3xl result font-bold">Resultado</h2>
         <p class="results text-slate-500 mb-[2rem]"></p>
-        <div class="hidden">
-            <div class="custom-loader"></div>
-        </div>
+
         <div class="containerResult h-[10%]  m-b[5rem] flex flex-wrap">
 
         </div>
@@ -75,7 +78,8 @@
         <section>
             <h3 id="conteo"></h3>
             <div id="infoContainer2"
-                class="infoConteiner2 grid grid-cols-4 gap-4 h-[10%] m-b[10rem] mt[5rem] flex flex-col  flex-wrap"> </div>
+                class="infoConteiner2 grid grid-cols-4 gap-4 h-[10%] m-b[10rem] mt[5rem] flex flex-col  flex-wrap">
+            </div>
         </section>
         </div>
 
@@ -101,6 +105,8 @@
     <footer class="footer  bg-[#020202] h-[100px] flex flex-col justify-center mt-[3rem]">
         <p class="text-center text-[0.9rem] text-white">Hecho ❤️ por tamy</p>
     </footer>
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="scrip.js"></script>
+    
+
 </html>

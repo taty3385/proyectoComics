@@ -80,7 +80,16 @@ const getCharacterId = async (characterId) => {
 
 }
 
+
+
 const printContent = async (resource, title, offset) => {
+    const loadingIndicator = $("#loadingIndicator");
+    const loadingBackground = $("#loadingBackground");
+
+    
+    loadingBackground.classList.remove("hidden");
+    loadingIndicator.classList.remove("hidden");
+
     const contentData = await getMarvelData(resource, title, offset);
     let totalResults = 0;
 
@@ -93,9 +102,11 @@ const printContent = async (resource, title, offset) => {
         printCharacter(contentData.results);
         $(".results").innerHTML = ` ${totalResults} Resultados`;
     }
+
+    // Ocultar loadingBackground y loadingIndicator
+    loadingBackground.classList.add("hidden");
+    loadingIndicator.classList.add("hidden");
 };
-
-
 
 
 const printComic = async (comics) => {
@@ -109,14 +120,14 @@ const printComic = async (comics) => {
         comicElement.style.width = "17%"
         comicElement.style.marginLeft = "1rem"
 
-        comicElement.innerHTML = `<div class="hoverComic h-[80%] w-[100%]">
+        comicElement.innerHTML = `<div class="hoverComic h-[75%] w-[100%]">
         <img  src="${comic.thumbnail.path}.${comic.thumbnail.extension}" alt="${comic.title}" class="comic-image" data-id="${comic.id}">
         
         </div>`;
-        comicElement.innerHTML += `<p class="hoverText">${comic.title}</p>`;
+        comicElement.innerHTML += `<p class="hoverText h-[10%]">${comic.title}</p>`;
         container.appendChild(comicElement);
-         comicElement.addEventListener("click", async () => {
-    
+        comicElement.addEventListener("click", async () => {
+
             $(".containerResult").classList.add("hidden");
             $("#infoContainer").classList.remove("hidden");
             $("#infoContainer2").classList.remove("hidden");
@@ -142,7 +153,7 @@ const printCharacter = async (characters) => {
     const container = $(".containerResult");
     container.innerHTML = "";
 
-   
+
     for (const character of characters) {
         const characterElement = document.createElement("div");
         characterElement.classList.add("containerCharacter")
@@ -156,7 +167,7 @@ const printCharacter = async (characters) => {
         container.appendChild(characterElement);
 
         characterElement.addEventListener("click", async () => {
-   
+
             $(".containerResult").classList.add("hidden");
             $("#infoContainer").classList.remove("hidden");
             $("#infoContainer2").classList.remove("hidden");
@@ -182,8 +193,12 @@ const printInfoComics = async (comics) => {
     container.innerHTML = "";
     for (const comic of comics) {
         const comicElement = document.createElement("div");
-        comicElement.innerHTML = `<div class="hoverComic h-[80%] w-[100%]">   
-            <img class="h-[80%] w-[100%]" src="${comic.thumbnail.path}.${comic.thumbnail.extension}" alt="${comic.title}" class="comic-image" data-id="${comic.id}">
+        comicElement.classList.add("containerinfoComics")
+        comicElement.style.width = "20%"
+        comicElement.style.marginLeft = "1rem"
+        comicElement.style.marginBottom = "7px"
+        comicElement.innerHTML = `<div class="hoverComic h-[70%] ">   
+            <img class="h-[100%] w-[100%]" src="${comic.thumbnail.path}.${comic.thumbnail.extension}" alt="${comic.title}" class="comic-image" data-id="${comic.id}">
             </div>`;
         comicElement.innerHTML += `<p class="">${comic.title}</p>`;
         container.appendChild(comicElement);
@@ -193,6 +208,7 @@ const printInfoComics = async (comics) => {
             const comicInfo = await getComicId(comicId);
             InfoContainer(comicInfo, "infoContainer");
             showCharacterComics(comicId, "infoContainer2");
+            scrollToInfoContainer("infoContainer");
 
         });
     }
@@ -205,9 +221,9 @@ const printInfoCharacters = (characters) => {
     container.innerHTML = "";
     characters.forEach((character) => {
         const characterElement = document.createElement("div");
-        characterElement.innerHTML = `<div class="hoverImg h-[90%] w-[100%]">
+        characterElement.innerHTML = `<div class="hoverImg h-[40%] w-[43%]">
             <img src="${character.thumbnail.path}.${character.thumbnail.extension}" alt="${character.name}"class="character-image h-[100%]" data-id="${character.id}"> </div>`;
-        characterElement.innerHTML += `<p class="h-[20%] bg-black text-white text-center flex flex-col justify-center border-solid  border-t-red-600 hover">${character.name}</p>`;
+        characterElement.innerHTML += `<p class="h-[20%]  w-[20%] bg-black text-white text-center flex flex-col justify-center border-solid  border-t-red-600 hover">${character.name}</p>`;
         container.appendChild(characterElement);
     });
 
@@ -218,11 +234,17 @@ const printInfoCharacters = (characters) => {
             const character = await getCharacterId(characterId);
             InfoContainer(character, "infoContainer");
             showComicsCharacter(characterId, "infoContainer2");
+            scrollToInfoContainer("infoContainer");
         });
     });
 };
 
-
+const scrollToInfoContainer = (elementId) => {
+    const infoContainer = $("#" + elementId);
+    if (infoContainer) {
+        infoContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+};
 
 
 const getCharacterComics = async (comicId) => {
@@ -320,8 +342,37 @@ const Writer = (comic) => {
 
 
 
-const InfoContainer = (data) => {
+// const InfoContainer = (data) => {
+//     const infoContainer = $("#infoContainer");
+//     infoContainer.innerHTML = "";
+
+//     const fechaPublicacion = data.dates?.find(date => date.type === 'onsaleDate')?.date || '';
+//     const escritor = Writer(data) || '';
+
+//     infoContainer.innerHTML = "";
+//     infoContainer.innerHTML += `
+//         <img  class="w-[40%] mr-[2rem]"src="${data.thumbnail.path}.${data.thumbnail.extension}" alt="${data.title || data.name}">
+
+//         <div class="w-[50%]">
+//             <p class="font-bold  my-8 text-2xl">${data.title || data.name}</p>
+//             <p class="my-8">${fechaPublicacion ? `<span class="font-bold">Fecha de publicación:</span> ${formatFecha(fechaPublicacion)}` : ''}</p>
+//             <p class="my-8">${escritor ? `<span class="font-bold ]">Escritor:</span> ${escritor}` : ''}</p>
+//             <p class="my-8">${data.description ? `<span class="font-bold">Descripción:</span> ${data.description}` : ' '}</p>
+//         </div>
+//     `;
+
+//     ;
+// };
+
+const InfoContainer = async (data) => {
     const infoContainer = $("#infoContainer");
+    const loadingIndicator = $("#loadingIndicator");
+    const loadingBackground = $("#loadingBackground");
+
+
+    loadingBackground.classList.remove("hidden");
+    loadingIndicator.classList.remove("hidden");
+
     infoContainer.innerHTML = "";
 
     const fechaPublicacion = data.dates?.find(date => date.type === 'onsaleDate')?.date || '';
@@ -329,7 +380,7 @@ const InfoContainer = (data) => {
 
     infoContainer.innerHTML = "";
     infoContainer.innerHTML += `
-        <img  class="w-[40%] mr-[2rem]"src="${data.thumbnail.path}.${data.thumbnail.extension}" alt="${data.title || data.name}">
+        <img class="w-[40%] mr-[2rem]" src="${data.thumbnail.path}.${data.thumbnail.extension}" alt="${data.title || data.name}">
         
         <div class="w-[50%]">
             <p class="font-bold  my-8 text-2xl">${data.title || data.name}</p>
@@ -339,10 +390,14 @@ const InfoContainer = (data) => {
         </div>
     `;
 
-    ;
+    // Ocultar loadingBackground y loadingIndicator después de un tiempo de simulación
+    // Puedes ajustar el tiempo según tus necesidades o puedes quitar este bloque si no necesitas un retardo.
+    setTimeout(() => {
+        // Ocultar loadingBackground y loadingIndicator
+        loadingBackground.classList.add("hidden");
+        loadingIndicator.classList.add("hidden");
+    }, 1000); // Ajusta el tiempo según sea necesario
 };
-
-
 
 
 
@@ -356,7 +411,7 @@ const navigatePage = async (resource, title, offset) => {
     } else {
         if (offset === 1) {
             const { totalPages: total } = await getMarvelData(resource, title, currentPage * limit);
-            totalPages = total; // Asigna el valor de total a totalPages
+            totalPages = total;
             if (currentPage + 1 >= totalPages) {
                 return;
             }

@@ -10,10 +10,11 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Rubik+Scribble&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/60c801c4ee.js" crossorigin="anonymous"></script>
-    <title>Document</title>
+    <link rel="icon" type="image/png" sizes="16x16" href="./superheroe.png">
+    <title>Comics tamy</title>
 </head>
 
-<body >
+<body>
 
     </div>
     <header class="bg-[#020202] h-[100px] flex flex-col justify-center">
@@ -31,22 +32,23 @@
                     <div class="w-[100%] ">
                         <span class="containerIcon"><i class="fa-solid fa-magnifying-glass"></i></span>
                         <input type="text" id="tilteSearch"
-                            class=" w-[90%] p-[0.5rem]  border-solid border-b-[1px] border-black"
+                            class=" w-[90%] p-[0.5rem]  border-solid border-b-[1px] border-black focus"
                             placeholder="Ingresa tu Busqueda">
                     </div>
                 </div>
                 <div class="flex justify-around w-[50%]  containerTipo">
-                    <div class="w-[20%]">
+                    <div class="w-[20%] ">
                         <label name="titleTipo">Tipo:</label>
-                        <select class="w-[100%]  border-[1px] border-solid border[1px] border-black"
+                        <select class="w-[100%]  border-[1px] border-solid border[1px] border-black focus"
                             id="optionPersonajes">
                             <option value="comics">Comic</option>
                             <option value="characters">Personajes</option>
                         </select>
                     </div>
-                    <div class="w-[20%] containerOrder">
+                    <div class="w-[20%] containerOrder ">
                         <label name="titleOrder">Orden:</label>
-                        <select id="sortOrder" class="w-[100%] border-[1px] border-solid border[1px] border-black">
+                        <select id="sortOrder"
+                            class="w-[100%] border-[1px] border-solid border[1px] border-black focus">
                             <option class="aZc" value="asc">A-Z</option>
                             <option class="zAcv" value="desc"> Z-A</option>
                             <option class="viejoc" value="newest">Mas nuevo</option>
@@ -56,7 +58,7 @@
                     </div>
                     <div class="w-[20%] flex justify-center items-center ContainerSearch ">
                         <button type="button" id="buttonSearch"
-                            class="hover w-[100%] h-[50%] border-[1px] border-solid border[1px] border-black text-white bg-black">Buscar
+                            class="hover w-[100%] h-[50%] border-[1px] border-solid border[1px] border-black text-white bg-black focus">Buscar
                         </button>
                     </div>
                 </div>
@@ -65,9 +67,9 @@
         </form>
 
         <h2 class="my-4 text-3xl result font-bold">Resultado</h2>
-         <p class="results text-slate-500 mb-[2rem]"></p>
-         <div id="loadingIndicator" ></div>
-         <div id="loadingBackground"></div>
+        <p class="results text-slate-500 mb-[2rem]"></p>
+        <div id="loadingIndicator"></div>
+        <div id="loadingBackground"></div>
 
         <div class="containerResult h-[10%]  m-b[5rem] flex flex-wrap">
 
@@ -76,23 +78,23 @@
 
         <section>
             <h3 id="conteo"></h3>
-            <div id="infoContainer2"class="infoConteiner2  h-[10%] m-b[10rem] mt[5rem] flex flex-row  flex-wrap">
+            <div id="infoContainer2" class="infoConteiner2  h-[10%]  m-b[10rem] mt[5rem] flex  flex-wrap">
             </div>
         </section>
         </div>
 
         <div class="container-button flex justify-center  mt-[67px]">
-            <button id="first" class="hover w-[5%] bg-black text-white mr-[5px]">
+            <button id="first" class="hover w-[5%] bg-black text-white mr-[5px] focus">
                 <i class="fas fa-angle-double-left"></i>
             </button>
-            <button id="prev" class="hover w-[5%] bg-black text-white mr-[5px]">
+            <button id="prev" class="hover w-[5%] bg-black text-white mr-[5px] focus">
                 <i class="fas fa-angle-left"></i>
             </button>
             <div id="currentPage"></div>
-            <button id="next" class="hover w-[5%] bg-black text-white mr-[5px]">
+            <button id="next" class="hover w-[5%] bg-black text-white mr-[5px] focus">
                 <i class="fas fa-angle-right"></i>
             </button>
-            <button id="last" class="hover w-[5%] bg-black text-white mr-[5px]">
+            <button id="last" class="hover w-[5%] bg-black text-white mr-[5px] focus">
                 <i class="fas fa-angle-double-right"></i>
             </button>
         </div>
@@ -105,6 +107,6 @@
     </footer>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="scrip.js"></script>
-    
+
 
 </html>

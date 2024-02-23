@@ -131,6 +131,13 @@ button:disabled {
   justify-content: center;
   align-items: center;
 }
+.focus:focus {
+  outline: none; 
+  border: 2px solid red; 
+}
+
+
+
 
 
 

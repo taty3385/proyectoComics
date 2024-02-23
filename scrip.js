@@ -35,7 +35,7 @@ const getMarvelData = async (resource, title, offset) => {
     const url = `${urlBase}${resource}?${ts}${keyPublic}${validationTitle}${hash}&offset=${offset}&limit=${limit}&orderBy=${sortOrder}${orderField}`;
     const response = await fetch(url);
     const data = await response.json();
-    console.log(data.data);
+    console.log(data.data.results);
 
     if (data && data.data && data.data.results) {
         const totalElements = data.data.total || 0;
@@ -61,24 +61,33 @@ const getMarvelData = async (resource, title, offset) => {
 
 
 const getComicId = async (comicId) => {
-    const endpoint = `comics/${comicId}`;
-    const url = `${urlBase}${endpoint}?${ts}${keyPublic}${hash}`;
-    const response = await fetch(url);
-    const data = await response.json();
-    return data.data.results[0];
-
+    try {
+        const endpoint = `comics/${comicId}`;
+        const url = `${urlBase}${endpoint}?${ts}${keyPublic}${hash}`;
+        const response = await fetch(url);
+        const data = await response.json();
+        return data.data.results[0];
+    } catch (error) {
+        console.error('Error fetching comic data:', error);
+      
+    }
 };
 
 
+
 const getCharacterId = async (characterId) => {
-    const endpoint = `characters/${characterId}`;
-    const url = `${urlBase}${endpoint}?${ts}${keyPublic}${hash}`;
-    const response = await fetch(url);
-    const data = await response.json();
-    return data.data.results[0];
+    try {
+        const endpoint = `characters/${characterId}`;
+        const url = `${urlBase}${endpoint}?${ts}${keyPublic}${hash}`;
+        const response = await fetch(url);
+        const data = await response.json();
+        return data.data.results[0];
+    } catch (error) {
+        console.error('Error fetching character:', error);
+        
+    }
+};
 
-
-}
 
 
 
@@ -203,7 +212,8 @@ const printInfoComics = async (comics) => {
         comicElement.innerHTML += `<p class="">${comic.title}</p>`;
         container.appendChild(comicElement);
         comicElement.addEventListener("click", async () => {
-
+            $(".container-button-detail").classList.remove("hidden")
+            $(".container-button").classList.add("hidden")
             const comicId = comic.id;
             const comicInfo = await getComicId(comicId);
             InfoContainer(comicInfo, "infoContainer");
@@ -222,9 +232,9 @@ const printInfoCharacters = (characters) => {
     characters.forEach((character) => {
         const characterElement = document.createElement("div");
         characterElement.style.marginRight = "5px"
-        characterElement.style.width= "20%"
+        characterElement.style.width= "30%"
         characterElement.style.marginLeft = "1rem"
-        characterElement.style.marginBottom = "7px"
+        characterElement.style.marginBottom = "49px"
         characterElement.innerHTML = `<div class="hoverImg h-[90%] w-[100%]">
             <img src="${character.thumbnail.path}.${character.thumbnail.extension}" alt="${character.name}"class="character-image h-[100%]" data-id="${character.id}"> </div>`;
         characterElement.innerHTML += `<p class=" bg-black text-white text-center flex flex-col justify-center border-solid  border-t-red-600 hover">${character.name}</p>`;
@@ -233,7 +243,8 @@ const printInfoCharacters = (characters) => {
 
     document.querySelectorAll(".character-image").forEach((image) => {
         image.addEventListener("click", async () => {
-
+                $(".container-button-detail").classList.remove("hidden")
+                $(".container-button").classList.add("hidden")
             const characterId = image.dataset.id;
             const character = await getCharacterId(characterId);
             InfoContainer(character, "infoContainer");
@@ -253,77 +264,100 @@ const scrollToInfoContainer = (elementId) => {
 };
 
 
+
 const getCharacterComics = async (comicId) => {
-    const endpoint = `comics/${comicId}/characters`;
-    const url = `${urlBase}${endpoint}?${ts}${keyPublic}${hash}`;
+    try {
+        const endpoint = `comics/${comicId}/characters`;
+        const url = `${urlBase}${endpoint}?${ts}${keyPublic}${hash}`;
+        const response = await fetch(url);
+        const data = await response.json();
 
+        const characters = data.data.results;
+        const totalResults = data.data.total;
 
-    const response = await fetch(url);
-    const data = await response.json();
+        characters.forEach((character) => {
+            character.numComics = character.comics.items.length;
+        });
 
-    const characters = data.data.results;
-    const totalResults = data.data.total;
-
-
-    characters.forEach((character) => {
-        character.numComics = character.comics.items.length;
-    });
-
-    return {
-        characters: characters,
-        totalResults: totalResults
-    };
-
+        return {
+            characters: characters,
+            totalResults: totalResults
+        };
+    } catch (error) {
+        console.error('Error fetching character comics:', error);
+        return {
+            characters: [],
+            totalResults: 0
+        };
+    }
 };
+
+
+
+
 
 const getComicsCharacter = async (characterId) => {
-    const endpoint = `characters/${characterId}/comics`;
-    const url = `${urlBase}${endpoint}?${ts}${keyPublic}${hash}`;
+    try {
+        const endpoint = `characters/${characterId}/comics`;
+        const url = `${urlBase}${endpoint}?${ts}${keyPublic}${hash}`;
+        const response = await fetch(url);
+        const data = await response.json();
 
+        const comics = data.data.results;
+        const totalResults = data.data.total;
 
-    const response = await fetch(url);
-    const data = await response.json();
+        comics.forEach((comic) => {
+            comic.numCharacters = comic.characters.items.length;
+        });
 
-    const comics = data.data.results;
-    const totalResults = data.data.total;
-
-    comics.forEach((comic) => {
-        comic.numCharacters = comic.characters.items.length;
-    });
-
-    return {
-        comics: comics,
-        totalResults: totalResults
-    };
-
+        return {
+            comics: comics,
+            totalResults: totalResults
+        };
+    } catch (error) {
+        console.error('Error fetching character comics:', error);
+        return {
+            comics: [],
+            totalResults: 0
+        };
+    }
 };
 
-const showResults = async (totalResults) => {
+
+
+
+const showResults = async (totalResults, resource) => {
     const resultsElement = $("#conteo");
+    let title = "";
+
+    if (resource === 'character') {
+        title = "Personajes";
+    } else if (resource === 'comics') {
+        title = "Comics";
+    }
 
     if (totalResults > 0) {
-        resultsElement.innerHTML = `<h3 class="my-4 text-3xl result font-bold">Personajes</h3>
+        resultsElement.innerHTML = `<h3 class="my-4 text-3xl result font-bold">${title}</h3>
         <p class="text-slate-500 mb-[2rem]">Resultados: ${totalResults}</p>`;
     } else {
-        resultsElement.innerHTML = ` <h3 class="my-4 text-3xl result font-bold">Personajes</h3>
+        resultsElement.innerHTML = ` <h3 class="my-4 text-3xl result font-bold">${title}</h3>
         <p class="text-slate-500 mb-[2rem]">Resultados: ${totalResults}</p>
         <p class="my-4 text-3xl result font-bold">No hay resultados</p>`;
     }
 };
 
 
-
 const showCharacterComics = async (comicId, containerId) => {
     const { characters, totalResults } = await getCharacterComics(comicId);
     printInfoCharacters(characters, containerId);
-    showResults(totalResults);
+    showResults(totalResults,"character");
 };
 
 
 const showComicsCharacter = async (characterId, containerId) => {
     const { comics, totalResults } = await getComicsCharacter(characterId);
     printInfoComics(comics, containerId);
-    showResults(totalResults);
+    showResults(totalResults, "comics");
 };
 
 
@@ -418,6 +452,52 @@ const navigatePage = async (resource, title, offset) => {
 
 
 
+const navigatePageInfoContainer2 = async (resource, title, offset) => {
+    let totalPages;
+
+    if (offset === 'last') {
+        const { totalPages: total } = await getMarvelData(resource, title, 0);
+        currentPage = total - 1;
+    } else {
+        if (offset === 1) {
+            const { totalPages: total } = await getMarvelData(resource, title, currentPage * limit);
+            totalPages = total;
+            if (currentPage + 1 >= totalPages) {
+                return;
+            }
+        }
+
+        if (offset === -1) {
+            if (currentPage === 0) {
+                return;
+            }
+        }
+
+        currentPage += offset;
+    }
+
+    updatePageNumber();
+    await printContent(resource, title, currentPage * limit);
+};
+
+
+const updatePageNumberForInfoContainer2 = (offset) => {
+    $("#currentPageInfoContainer2").textContent = currentPage + 1;
+};
+
+$("#prev-detail").addEventListener("click", () => navigatePageInfoContainer2($("#optionPersonajes").value, $("#tilteSearch").value, -1));
+$("#next-detail").addEventListener("click", () => navigatePageInfoContainer2($("#optionPersonajes").value, $("#tilteSearch").value, 1));
+$("#first-detail").addEventListener("click", () => navigatePageInfoContainer2($("#optionPersonajes").value, $("#tilteSearch").value, -currentPage));
+$("#last-detail").addEventListener("click", () => {
+    const resource = $("#optionPersonajes").value;
+    const title = $("#tilteSearch").value;
+    navigatePageInfoContainer2(resource, title, 'last');
+});
+
+
+
+
+
 // --------------------------------------------EVENTOS------------------------------------------------ 
 
 const updatePageNumber = () => {
@@ -469,6 +549,14 @@ $("#last").addEventListener("click", () => {
     const title = $("#tilteSearch").value;
     navigatePage(resource, title, 'last');
 });
+// $("#prev-detail").addEventListener("click", () => navigatePageInfoContainer2($("#optionPersonajes").value, $("#tilteSearch").value, -1));
+// $("#next-detail").addEventListener("click", () => navigatePageInfoContainer2($("#optionPersonajes").value, $("#tilteSearch").value, 1));
+// $("#first-detail").addEventListener("click", () => navigatePageInfoContainer2($("#optionPersonajes").value, $("#tilteSearch").value, -currentPage));
+// $("#last-detail").addEventListener("click", () => {
+//     const resource = $("#optionPersonajes").value;
+//     const title = $("#tilteSearch").value;
+//     navigatePage(resource, title, 'last');
+// });
 
 
 

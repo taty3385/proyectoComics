@@ -35,7 +35,7 @@ const getMarvelData = async (resource, title, offset) => {
     const url = `${urlBase}${resource}?${ts}${keyPublic}${validationTitle}${hash}&offset=${offset}&limit=${limit}&orderBy=${sortOrder}${orderField}`;
     const response = await fetch(url);
     const data = await response.json();
-    console.log(data.data.total);
+    console.log(data.data);
 
     if (data && data.data && data.data.results) {
         const totalElements = data.data.total || 0;
@@ -86,7 +86,7 @@ const printContent = async (resource, title, offset) => {
     const loadingIndicator = $("#loadingIndicator");
     const loadingBackground = $("#loadingBackground");
 
-    
+
     loadingBackground.classList.remove("hidden");
     loadingIndicator.classList.remove("hidden");
 
@@ -103,7 +103,7 @@ const printContent = async (resource, title, offset) => {
         $(".results").innerHTML = ` ${totalResults} Resultados`;
     }
 
-    // Ocultar loadingBackground y loadingIndicator
+
     loadingBackground.classList.add("hidden");
     loadingIndicator.classList.add("hidden");
 };
@@ -113,7 +113,7 @@ const printComic = async (comics) => {
     const container = $(".containerResult");
     container.innerHTML = "";
 
-    // Itera sobre los cómics y agrega la información al contenedor
+
     for (const comic of comics) {
         const comicElement = document.createElement("div");
         comicElement.classList.add("containerComic")
@@ -221,9 +221,13 @@ const printInfoCharacters = (characters) => {
     container.innerHTML = "";
     characters.forEach((character) => {
         const characterElement = document.createElement("div");
-        characterElement.innerHTML = `<div class="hoverImg h-[40%] w-[43%]">
+        characterElement.style.marginRight = "5px"
+        characterElement.style.width= "20%"
+        characterElement.style.marginLeft = "1rem"
+        characterElement.style.marginBottom = "7px"
+        characterElement.innerHTML = `<div class="hoverImg h-[90%] w-[100%]">
             <img src="${character.thumbnail.path}.${character.thumbnail.extension}" alt="${character.name}"class="character-image h-[100%]" data-id="${character.id}"> </div>`;
-        characterElement.innerHTML += `<p class="h-[20%]  w-[20%] bg-black text-white text-center flex flex-col justify-center border-solid  border-t-red-600 hover">${character.name}</p>`;
+        characterElement.innerHTML += `<p class=" bg-black text-white text-center flex flex-col justify-center border-solid  border-t-red-600 hover">${character.name}</p>`;
         container.appendChild(characterElement);
     });
 
@@ -238,6 +242,8 @@ const printInfoCharacters = (characters) => {
         });
     });
 };
+
+
 
 const scrollToInfoContainer = (elementId) => {
     const infoContainer = $("#" + elementId);
@@ -342,27 +348,7 @@ const Writer = (comic) => {
 
 
 
-// const InfoContainer = (data) => {
-//     const infoContainer = $("#infoContainer");
-//     infoContainer.innerHTML = "";
 
-//     const fechaPublicacion = data.dates?.find(date => date.type === 'onsaleDate')?.date || '';
-//     const escritor = Writer(data) || '';
-
-//     infoContainer.innerHTML = "";
-//     infoContainer.innerHTML += `
-//         <img  class="w-[40%] mr-[2rem]"src="${data.thumbnail.path}.${data.thumbnail.extension}" alt="${data.title || data.name}">
-
-//         <div class="w-[50%]">
-//             <p class="font-bold  my-8 text-2xl">${data.title || data.name}</p>
-//             <p class="my-8">${fechaPublicacion ? `<span class="font-bold">Fecha de publicación:</span> ${formatFecha(fechaPublicacion)}` : ''}</p>
-//             <p class="my-8">${escritor ? `<span class="font-bold ]">Escritor:</span> ${escritor}` : ''}</p>
-//             <p class="my-8">${data.description ? `<span class="font-bold">Descripción:</span> ${data.description}` : ' '}</p>
-//         </div>
-//     `;
-
-//     ;
-// };
 
 const InfoContainer = async (data) => {
     const infoContainer = $("#infoContainer");
@@ -390,13 +376,12 @@ const InfoContainer = async (data) => {
         </div>
     `;
 
-    // Ocultar loadingBackground y loadingIndicator después de un tiempo de simulación
-    // Puedes ajustar el tiempo según tus necesidades o puedes quitar este bloque si no necesitas un retardo.
+
     setTimeout(() => {
-        // Ocultar loadingBackground y loadingIndicator
+
         loadingBackground.classList.add("hidden");
         loadingIndicator.classList.add("hidden");
-    }, 1000); // Ajusta el tiempo según sea necesario
+    }, 1000);
 };
 
 
@@ -484,6 +469,8 @@ $("#last").addEventListener("click", () => {
     const title = $("#tilteSearch").value;
     navigatePage(resource, title, 'last');
 });
+
+
 
 
 navigatePage("comics", "", 0);

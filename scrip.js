@@ -35,7 +35,7 @@ const getMarvelData = async (resource, title, offset) => {
     const url = `${urlBase}${resource}?${ts}${keyPublic}${validationTitle}${hash}&offset=${offset}&limit=${limit}&orderBy=${sortOrder}${orderField}`;
     const response = await fetch(url);
     const data = await response.json();
-    console.log(data.data.results);
+
 
     if (data && data.data && data.data.results) {
         const totalElements = data.data.total || 0;
@@ -66,10 +66,11 @@ const getComicId = async (comicId) => {
         const url = `${urlBase}${endpoint}?${ts}${keyPublic}${hash}`;
         const response = await fetch(url);
         const data = await response.json();
+        console.log(data);
         return data.data.results[0];
     } catch (error) {
         console.error('Error fetching comic data:', error);
-      
+
     }
 };
 
@@ -84,7 +85,7 @@ const getCharacterId = async (characterId) => {
         return data.data.results[0];
     } catch (error) {
         console.error('Error fetching character:', error);
-        
+
     }
 };
 
@@ -212,8 +213,6 @@ const printInfoComics = async (comics) => {
         comicElement.innerHTML += `<p class="">${comic.title}</p>`;
         container.appendChild(comicElement);
         comicElement.addEventListener("click", async () => {
-            $(".container-button-detail").classList.remove("hidden")
-            $(".container-button").classList.add("hidden")
             const comicId = comic.id;
             const comicInfo = await getComicId(comicId);
             InfoContainer(comicInfo, "infoContainer");
@@ -232,7 +231,7 @@ const printInfoCharacters = (characters) => {
     characters.forEach((character) => {
         const characterElement = document.createElement("div");
         characterElement.style.marginRight = "5px"
-        characterElement.style.width= "30%"
+        characterElement.style.width = "30%"
         characterElement.style.marginLeft = "1rem"
         characterElement.style.marginBottom = "49px"
         characterElement.innerHTML = `<div class="hoverImg h-[90%] w-[100%]">
@@ -243,8 +242,6 @@ const printInfoCharacters = (characters) => {
 
     document.querySelectorAll(".character-image").forEach((image) => {
         image.addEventListener("click", async () => {
-                $(".container-button-detail").classList.remove("hidden")
-                $(".container-button").classList.add("hidden")
             const characterId = image.dataset.id;
             const character = await getCharacterId(characterId);
             InfoContainer(character, "infoContainer");
@@ -350,7 +347,7 @@ const showResults = async (totalResults, resource) => {
 const showCharacterComics = async (comicId, containerId) => {
     const { characters, totalResults } = await getCharacterComics(comicId);
     printInfoCharacters(characters, containerId);
-    showResults(totalResults,"character");
+    showResults(totalResults, "character");
 };
 
 
@@ -388,8 +385,6 @@ const InfoContainer = async (data) => {
     const infoContainer = $("#infoContainer");
     const loadingIndicator = $("#loadingIndicator");
     const loadingBackground = $("#loadingBackground");
-
-
     loadingBackground.classList.remove("hidden");
     loadingIndicator.classList.remove("hidden");
 
@@ -401,8 +396,7 @@ const InfoContainer = async (data) => {
     infoContainer.innerHTML = "";
     infoContainer.innerHTML += `
         <img class="w-[40%] mr-[2rem]" src="${data.thumbnail.path}.${data.thumbnail.extension}" alt="${data.title || data.name}">
-        
-        <div class="w-[50%]">
+          <div class="w-[50%]">
             <p class="font-bold  my-8 text-2xl">${data.title || data.name}</p>
             <p class="my-8">${fechaPublicacion ? `<span class="font-bold">Fecha de publicación:</span> ${formatFecha(fechaPublicacion)}` : ''}</p>
             <p class="my-8">${escritor ? `<span class="font-bold ]">Escritor:</span> ${escritor}` : ''}</p>
@@ -452,47 +446,6 @@ const navigatePage = async (resource, title, offset) => {
 
 
 
-const navigatePageInfoContainer2 = async (resource, title, offset) => {
-    let totalPages;
-
-    if (offset === 'last') {
-        const { totalPages: total } = await getMarvelData(resource, title, 0);
-        currentPage = total - 1;
-    } else {
-        if (offset === 1) {
-            const { totalPages: total } = await getMarvelData(resource, title, currentPage * limit);
-            totalPages = total;
-            if (currentPage + 1 >= totalPages) {
-                return;
-            }
-        }
-
-        if (offset === -1) {
-            if (currentPage === 0) {
-                return;
-            }
-        }
-
-        currentPage += offset;
-    }
-
-    updatePageNumber();
-    await printContent(resource, title, currentPage * limit);
-};
-
-
-const updatePageNumberForInfoContainer2 = (offset) => {
-    $("#currentPageInfoContainer2").textContent = currentPage + 1;
-};
-
-$("#prev-detail").addEventListener("click", () => navigatePageInfoContainer2($("#optionPersonajes").value, $("#tilteSearch").value, -1));
-$("#next-detail").addEventListener("click", () => navigatePageInfoContainer2($("#optionPersonajes").value, $("#tilteSearch").value, 1));
-$("#first-detail").addEventListener("click", () => navigatePageInfoContainer2($("#optionPersonajes").value, $("#tilteSearch").value, -currentPage));
-$("#last-detail").addEventListener("click", () => {
-    const resource = $("#optionPersonajes").value;
-    const title = $("#tilteSearch").value;
-    navigatePageInfoContainer2(resource, title, 'last');
-});
 
 
 
@@ -549,14 +502,7 @@ $("#last").addEventListener("click", () => {
     const title = $("#tilteSearch").value;
     navigatePage(resource, title, 'last');
 });
-// $("#prev-detail").addEventListener("click", () => navigatePageInfoContainer2($("#optionPersonajes").value, $("#tilteSearch").value, -1));
-// $("#next-detail").addEventListener("click", () => navigatePageInfoContainer2($("#optionPersonajes").value, $("#tilteSearch").value, 1));
-// $("#first-detail").addEventListener("click", () => navigatePageInfoContainer2($("#optionPersonajes").value, $("#tilteSearch").value, -currentPage));
-// $("#last-detail").addEventListener("click", () => {
-//     const resource = $("#optionPersonajes").value;
-//     const title = $("#tilteSearch").value;
-//     navigatePage(resource, title, 'last');
-// });
+
 
 
 

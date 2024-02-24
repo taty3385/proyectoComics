@@ -9,7 +9,7 @@
 
 const $ = (selector) => document.querySelector(selector);
 
-const urlBase = "http://gateway.marvel.com/v1/public/";
+const urlBase = "https://gateway.marvel.com/v1/public/";
 const ts = "ts=1";
 const keyPublic = "&apikey=550c8159913c619584d39b76b50c69f6";
 const hash = "&hash=241d1f4c5068b3fc5cf2eb46db150f01";

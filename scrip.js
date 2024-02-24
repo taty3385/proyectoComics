@@ -66,7 +66,7 @@ const getComicId = async (comicId) => {
         const url = `${urlBase}${endpoint}?${ts}${keyPublic}${hash}`;
         const response = await fetch(url);
         const data = await response.json();
-        console.log(data);
+      
         return data.data.results[0];
     } catch (error) {
         console.error('Error fetching comic data:', error);
